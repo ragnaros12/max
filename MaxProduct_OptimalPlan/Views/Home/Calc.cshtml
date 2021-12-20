@@ -1,0 +1,42 @@
+﻿@model MaxProduct_OptimalPlan.Models.OutputData
+@{
+    ViewBag.Title = "Result";
+}
+
+<h2>Результаты</h2>
+
+<div>
+
+    <table>
+        <thead>
+            <tr>
+                @{
+                    foreach (var item in Model.results)
+                    {
+                        <th>Продукт @item.Key</th>
+
+                    }
+
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                @{
+                    foreach (var item in Model.results)
+                    {
+                        <td><input type="text" readonly="readonly" value="@item.Value" /></td>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+</div>
