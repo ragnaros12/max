@@ -9,13 +9,14 @@ namespace MaxProduct_OptimalPlan.Models
     {
         public int xId { get; set; }
 
-        public double Cost { get; set; }
+        public double Needs { get; set; }
 
-        public double Al { get; set; }
-        public double Med { get; set; }
-        public double Olovo { get; set; }
-        public double Zink { get; set; }
-        public double Svin { get; set; }
+        public double A1_DeliveryCost { get; set; }
+        public double A2_DeliveryCost { get; set; }
+        public double A3_DeliveryCost { get; set; }
+        public double A4_DeliveryCost { get; set; }
+        public double A5_DeliveryCost { get; set; }
+
 
     }
 

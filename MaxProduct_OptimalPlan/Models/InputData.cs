@@ -7,11 +7,12 @@ namespace MaxProduct_OptimalPlan.Models
 {
     public class InputData
     {
-        public List<SolverRow> products { get; set; }
-        public double Al_Constraint { get; set; }
-        public double Med_Constraint { get; set; }
-        public double Olovo_Constraint { get; set; }
-        public double Zink_Constraint { get; set; }
-        public double Svin_Constraint { get; set; }
+        public List<SolverRow> Workshops { get; set; }
+        public double A1_output { get; set; }
+        public double A2_output { get; set; }
+        public double A3_output { get; set; }
+        public double A4_output { get; set; }
+        public double A5_output { get; set; }
+
     }
 }

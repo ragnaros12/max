@@ -7,7 +7,11 @@ namespace MaxProduct_OptimalPlan.Models
 {
     public class OutputData
     {
-        public Dictionary<string, double> results { get; set; } = new Dictionary<string, double>();
+        public double[][] pr { get; set; }
+        public double[][] array { get; set; }
+        public double[] avg { get; set; }
+        public double[] avg1 {get;set;}
+        public double[] avg2 {get;set;}
 
     }
 }

@@ -1,42 +1,125 @@
 ﻿@model MaxProduct_OptimalPlan.Models.OutputData
 @{
-    ViewBag.Title = "Result";
+	ViewBag.Title = "Result";
 }
 
 <h2>Результаты</h2>
 
 <div>
 
-    <table>
-        <thead>
-            <tr>
-                @{
-                    foreach (var item in Model.results)
-                    {
-                        <th>Продукт @item.Key</th>
+	<table>
+		<tr>
+			<th>
 
-                    }
+			</th>
+			@{
 
-                }
+				for (int i = 0; i < Model.pr[0].Length - 1; i++)
+				{
 
-            </tr>
-        </thead>
-        <tbody>
-
-
-            <tr>
-                @{
-                    foreach (var item in Model.results)
-                    {
-                        <td><input type="text" readonly="readonly" value="@item.Value" /></td>
-                    }
-                }
-            </tr>
-        </tbody>
-    </table>
+					<th>
+						@(i + 1)
+					</th>
+				}
+			}
+			<th>
+				Avg
+			</th>
+		</tr>
 
 
+		@{
+
+			for (int i = 0; i < Model.pr[0].Length; i++)
+			{
+				<tr>
+					<td>
+						@(i + 1)
+					</td>
+					@{
+						for (int i1 = 0; i1 < Model.pr.Length; i1++)
+						{
+							<td>
+								@(Model.pr[i1][i])
+							</td>
+						}
+					}
+					<td style="background-color: rgb(250, 117, 117)">
+						@Model.avg1[i]
+					</td>
+				</tr>
+			}
+			<tr>
+				<td></td>
+				@{
+					foreach (double a in Model.avg)
+					{
+						<td style="background-color: rgb(250, 117, 117)">
+							@a
+						</td>
+					}
+				}
+				<td></td>
+			</tr>
+		}
+	</table>
+
+	<h2>Т</h2>
 
 
+	<table>
+		<tr>
+			<th>
 
+			</th>
+			@{
+
+				for (int i = 0; i < Model.pr[0].Length - 1; i++)
+				{
+
+					<th>
+						@(i + 1)
+					</th>
+				}
+			}
+			<th>
+				Avg
+			</th>
+		</tr>
+
+
+		@{
+
+			for (int i = 0; i < Model.array[0].Length; i++)
+			{
+				<tr>
+					<td>
+						@(i + 1)
+					</td>
+					@{
+						for (int i1 = 0; i1 < Model.array.Length; i1++)
+						{
+							<td>
+								@(Model.array[i1][i])
+							</td>
+						}
+					}
+					<td style="background-color: rgb(250, 117, 117)">
+						@Model.avg2[i]
+					</td>
+				</tr>
+			}
+
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td style="background-color: rgb(250, 117, 117)">
+			@Model.avg2.Sum()
+		</td>
+	</tr>
+		}
+	</table>
 </div>

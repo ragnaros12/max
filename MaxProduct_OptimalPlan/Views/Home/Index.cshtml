@@ -1,84 +1,179 @@
 ﻿@model MaxProduct_OptimalPlan.Models.InputData
+@using MaxProduct_OptimalPlan.Models;
 @{
-    ViewBag.Title = "Max Product Plan";
-
-  
+	ViewBag.Title = "Max Product Plan";
 }
 
 
 <form action="/Home/Calc" method="post">
 
-    <div>
-        <h1 style="">Составление оптимального плана для максимального выпуска продукции</h1>
+	<div class="tables">
+		<div class="table1">
+			<table>
+				<tr>
+					<th>Наименование мастерских:</th>
+				</tr>
+				<tr>
+					<td>A1</td>
+				</tr>
+				<tr>
+					<td>A2</td>
+				</tr>
+				<tr>
+					<td>A3</td>
+				</tr>
+				<tr>
+					<td>A4</td>
+				</tr>
+				<tr>
+					<td>A5</td>
+				</tr>
+				<tr>
+					<td>Потребности мастерских, тыс. Шт.</td>
+				</tr>
+			</table>
+		</div>
+		<div class="table2">
+			<table>
+				<tr>
+					<th class="noneBorder">Стоимость перевозок:</th>
+				</tr>
+				<tr>
+					<th>B1</th>
+					<th>B2</th>
+					<th>B3</th>
+					<th>B4</th>
+				</tr>
+				<tr>
+					@{
+						for (int i = 0; i < @Model.Workshops.Count; i++)
+						{
+							<td>
+								<input type="number" name="pr[@i][0]" id="pr[@i][0]" value="@Model.Workshops[i].A1_DeliveryCost" />
+							</td>
+						}
+					}
+				</tr>
+				<tr>
+					@{
+						for (int i = 0; i < @Model.Workshops.Count; i++)
+						{
+							<td>
+								<input type="number" name="pr[@i][1]" id="pr[@i][1]" value="@Model.Workshops[i].A2_DeliveryCost" />
+							</td>
+						}
+					}
+				</tr>
+				<tr>
+					@{
+						for (int i = 0; i < @Model.Workshops.Count; i++)
+						{
+							<td>
+								<input type="number" name="pr[@i][2]" id="pr[@i][2]" value="@Model.Workshops[i].A3_DeliveryCost" />
+							</td>
+						}
+					}
+				</tr>
+				<tr>
+					@{
+						for (int i = 0; i < @Model.Workshops.Count; i++)
+						{
+							<td>
+								<input type="number" name="pr[@i][3]" id="pr[@i][3]" value="@Model.Workshops[i].A4_DeliveryCost" />
+							</td>
+						}
+					}
+				</tr>
+				<tr>
+					@{
+						for (int i = 0; i < @Model.Workshops.Count; i++)
+						{
+							<td>
+								<input type="number" name="pr[@i][4]" id="pr[@i][4]" value="@Model.Workshops[i].A5_DeliveryCost" />
+							</td>
+						}
+					}
+				</tr>
+			</table>
+		</div>
+		<div class="table3">
+			<table>
+				<tr></tr>
+				<tr>
+					<th>Мощность заводов, тыс. Шт.</th>
+				</tr>
+				<tr>
+					<td>@Model.A1_output</td>
+				</tr>
+				<tr>
+					<td>@Model.A2_output</td>
+				</tr>
+				<tr>
+					<td>@Model.A3_output</td>
+				</tr>
+				<tr>
+					<td>@Model.A4_output</td>
+				</tr>
+				<tr>
+					<td>@Model.A5_output</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+	</div>
 
-        <h1>Ограничения:</h1>
-        <ul>
-            <li>
-                <label>Алюминий</label>
-                @Html.EditorFor(x => x.Al_Constraint)
-            </li>
-            <li>
-                <label>Медь</label>
-                @Html.EditorFor(x => x.Med_Constraint)
-            </li>
-            <li>
-                <label>Олово</label>
-                @Html.EditorFor(x => x.Olovo_Constraint)
-            </li>
-            <li>
-                <label>Цинк</label>
-                @Html.EditorFor(x => x.Zink_Constraint)
-            </li>
-            <li>
-                <label>Свинец</label>
-                @Html.EditorFor(x => x.Svin_Constraint)
-            </li>
-        </ul>
 
 
-        <h2>Продукты</h2>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th> Id </th>
-                        <th> Al_usage </th>
-                        <th> Cu_usage </th>
-                        <th> Sn_usage </th>
-                        <th> Zn_usage </th>
-                        <th> Pb_usage </th>
-                        <th> Cost </th>
-                    </tr>
-                </thead>
-                <tbody id="dynamic">
-                    @{
-                        for (int i = 0; i < Model.products.Count; i++)
-                        {
-                            var row = Model.products.ElementAt(i);
-                            <tr>
-                                <td><input type="number" readonly="readonly" name="products[@i].xId" value="@row.xId" /></td>
-
-                                <td><input type="number" name="products[@i].Al" value="@row.Al" /> </td>
-                                <td><input type="number" name="products[@i].Med" value="@row.Med" /></td>
-                                <td><input type="number" name="products[@i].Olovo" value="@row.Olovo" /></td>
-                                <td><input type="number" name="products[@i].Zink" value="@row.Zink" /></td>
-                                <td><input type="number" name="products[@i].Svin" value="@row.Svin" /></td>
-
-                                <td><input type="number" name="products[@i].Cost" value="@row.Cost" /></td>
-                            </tr>
-                        }
-
-                    }
-                </tbody>
-            </table>
-        </div>
+	<div class="tables2">
+		<div class="table-res">
+			<table>
+				<tr>
+					<td>Данные</td>
+				</tr>
+				@{ 
+					for(int i = 0; i < 5; i++)
+					{
+						<tr>
+							<td>
+								@(i + 1) 
+							</td>
+						</tr>
+					}
+				}
+			</table>
+		</div>
 
 
 
-        <button id="calc" type="submit">РАСЧЕТ</button>
-    </div>
+		@{
+			for (int i1 = 0; i1 < 4; i1++)
+			{
+				<div class="table-res2">
+					<table>
+						<tr>
+							<td>@(i1 + 1)</td>
+						</tr>
+
+						@{
+							for (int i = 0; i < 5; i++)
+							{
+								<tr>
+									<td>
+										<input name="products[@i1][@i]" id="products[@i1][@i]" type="number" value="@(i1 * 5 + i)" />
+									</td>
+								</tr>
+							}
+						}
+					</table>
+				</div>
+			}
+		}
+	</div>
 
 
+	<input type="submit" value="aa" />
 </form>
 
 

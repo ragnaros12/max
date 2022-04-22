@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MaxProduct_OptimalPlan.Models;
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -7,6 +8,107 @@
     <title>@ViewBag.Title - Составление оптимального плана для максимального выпуска продукции</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+		body {
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
+
+		/* Set padding to keep content from hitting the edges */
+		.body-content {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+
+		/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+		.dl-horizontal dt {
+			white-space: normal;
+		}
+
+		/* Set width on the form input elements since they're 100% wide by default */
+		/*input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+    margin: auto;
+}
+
+    table td,
+    table th {
+        border: solid 1px #aaa;
+        padding: 5px;
+        font-weight: bold;
+    }
+
+    table tbody tr:nth-child(2n) {
+        background: #a8d7ff;
+    }
+
+    table tbody tr:hover {
+        background: #fffcb6;
+    }*/
+
+
+		table, tr, th, td {
+			border: black 1px solid;
+			text-align: center;
+		}
+
+		.tables table {
+			width: 100%;
+			height: 200px;
+			margin: 10px 10px 10px 10px;
+		}
+
+		.tables {
+			display: flex;
+		}
+
+		.noneBorder {
+			border: none;
+			text-align: center;
+		}
+
+		td, th {
+			height: 20px;
+			width: 200px;
+		}
+
+		.tables2, .tables3 {
+			display: flex;
+			width: 100%;
+			height: 200px;
+			margin: 10px 10px 10px 30px;
+		}
+
+		.table-res6 table td, .table-result table tr, .table-result1 table tr, .table-res6 tr td {
+			background-color: rgb(145, 215, 255);
+		}
+
+		.table-res6 table tr th {
+			background-color: rgb(250, 117, 117);
+		}
+
+		.table-res6 {
+		}
+
+		.table-result, .table-result1 {
+			display: flex;
+			margin: 5px 10px 0px 200px;
+		}
+
+		.tables3 {
+			margin: 50px 0px 0px 30px;
+		}
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">

@@ -10,90 +10,93 @@ namespace MaxProduct_OptimalPlan.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
-        public ActionResult Index(InputData inputData)
-        {
-            var prod = new List<SolverRow>() {
-                new SolverRow() { xId = 1, Al = 10, Med=20, Olovo=15, Zink=30, Svin=20, Cost = 30},
-                new SolverRow() { xId = 2, Al = 70, Med=50, Olovo=35, Zink=40, Svin=45, Cost = 80},
-                new SolverRow() { xId = 3, Al = 50, Med=35, Olovo=40, Zink=25, Svin=60, Cost = 65} };
 
-            return View("Index", new InputData() { products = prod, Al_Constraint = 980, Med_Constraint = 860, Olovo_Constraint = 950, Zink_Constraint = 800, Svin_Constraint = 900 });
+        InputData InputData = new InputData()
+        {
+            A1_output = 25,
+            A2_output = 10,
+            A3_output = 30,
+            A4_output = 20,
+            A5_output = 15,
+            Workshops = new List<SolverRow>() {
+                new SolverRow() { xId = 1, A1_DeliveryCost = 1, A2_DeliveryCost=3, A3_DeliveryCost=2, A4_DeliveryCost=5, A5_DeliveryCost=4, Needs = 30},
+                new SolverRow() { xId = 2, A1_DeliveryCost = 3, A2_DeliveryCost=5, A3_DeliveryCost=7, A4_DeliveryCost=3, A5_DeliveryCost=2, Needs = 20},
+                new SolverRow() { xId = 3, A1_DeliveryCost = 2, A2_DeliveryCost=8, A3_DeliveryCost=4, A4_DeliveryCost=6, A5_DeliveryCost=5, Needs = 25},
+                new SolverRow() { xId = 4, A1_DeliveryCost = 5, A2_DeliveryCost=8, A3_DeliveryCost=6, A4_DeliveryCost=1, A5_DeliveryCost=3, Needs = 25},
+            }
+        };
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View(InputData);
         }
 
-
-        [HttpGet]
         public ActionResult Calc()
-        {
-            return View(new OutputData());
-        }
+		{
+            return RedirectToAction(nameof(Index));
+		}
 
 
         [HttpPost]
-        public ActionResult Calc(InputData inputData)
+
+        public object Calc(double[][] products, double[][] pr)
         {
+            double[] avg = new double[products.Length], avg1 = new double[products[0].Length];
 
-            List<SolverRow> solverList = new List<SolverRow>();
-
-            // Исходные данные задачи
-            solverList.AddRange(inputData.products);
-
-
-            SolverContext context = SolverContext.GetContext();
-            Model model = context.CreateModel();
-
-            Set users = new Set(Domain.Any, "users");
-
-            Parameter Cost = new Parameter(Domain.Real, "Cost", users);
-            Cost.SetBinding(solverList, "Cost", "xId");
-
-            Parameter Al = new Parameter(Domain.Real, "Al", users);
-            Al.SetBinding(solverList, "Al", "xId");
-            Parameter Med = new Parameter(Domain.Real, "Med", users);
-            Med.SetBinding(solverList, "Med", "xId");
-            Parameter Olovo = new Parameter(Domain.Real, "Olovo", users);
-            Olovo.SetBinding(solverList, "Olovo", "xId");
-            Parameter Zink = new Parameter(Domain.Real, "Zink", users);
-            Zink.SetBinding(solverList, "Zink", "xId");
-            Parameter Svin = new Parameter(Domain.Real, "Svin", users);
-            Svin.SetBinding(solverList, "Svin", "xId");
-
-            model.AddParameters(Cost, Al, Med, Olovo, Zink, Svin);
-
-            Decision choose = new Decision(Domain.RealNonnegative, "choose", users);
-            model.AddDecision(choose);
-
-            model.AddGoal("goal", GoalKind.Maximize, Model.Sum(Model.ForEach(users, xId => choose[xId] * Cost[xId])));
-
-            // Ограничения-неравенства
-            model.AddConstraint("Nerav1", Model.Sum(Model.ForEach(users, xId => Al[xId] * choose[xId])) <= inputData.Al_Constraint);
-            model.AddConstraint("Nerav2", Model.Sum(Model.ForEach(users, xId => Med[xId] * choose[xId])) <= inputData.Med_Constraint);
-            model.AddConstraint("Nerav3", Model.Sum(Model.ForEach(users, xId => Olovo[xId] * choose[xId])) <= inputData.Olovo_Constraint);
-            model.AddConstraint("Nerav4", Model.Sum(Model.ForEach(users, xId => Zink[xId] * choose[xId])) <= inputData.Zink_Constraint);
-            model.AddConstraint("Nerav5", Model.Sum(Model.ForEach(users, xId => Svin[xId] * choose[xId])) <= inputData.Svin_Constraint);
-
-            try
+            for(int i = 0; i < products.Length; i++)
+			{
+                avg[i] = products[i].Sum();
+			}
+            for (int i = 0; i < products[0].Length; i++)
             {
-                Solution solution = context.Solve();
-                Report report = solution.GetReport();
+                double sum = 0;
+                for(int i1 = 0; i1 < products.Length; i1++)
+				{
+                    sum += products[i1][i];
+				}
 
-                OutputData outputData = new OutputData();
+                avg1[i] = sum;
+            }
 
-                for (int i = 0; i < solverList.Count; i++)
+
+
+            double[][] array = new double[products.Length][];
+
+            for(int i = 0; i < array.Length; i++)
+			{
+                array[i] = new double[products[i].Length];
+                for(int i1 = 0; i1 < products[i].Length; i1++)
+				{
+                    array[i][i1] = products[i][i1] * pr[i][i1];
+				}
+			}
+
+            double[] avg2 = new double[array[0].Length];
+            for (int i = 0; i < array[0].Length; i++)
+            {
+                double sum = 0;
+                for (int i1 = 0; i1 < array.Length; i1++)
                 {
-                    outputData.results.Add("X" + (i + 1).ToString(), choose.GetDouble(solverList[i].xId));
-                    //reportStr += "Значение X" + (i + 1).ToString() + ": " +  + "\n";
+                    sum += array[i1][i];
                 }
 
-                return View("Calc", outputData);
+                avg2[i] = sum;
             }
-            catch (Exception ex)
-            {
-                return View("Index", inputData);
-            }
+
+
+            return View(
+                new OutputData()
+                {
+                    avg = avg,
+                    avg1 = avg1,
+                    avg2 = avg2,
+                    pr = products,
+                    array = array
+                }
+                );
+
         }
     }
-
 
 }
 
